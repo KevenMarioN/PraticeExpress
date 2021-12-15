@@ -6,14 +6,14 @@ export class CreateCategoryController {
     const {name,description} = request.body;
 
     const service = new CreateCategoryService();
-    try {
-      const result = await service.execute({name,description});
-      response.statusCode = 201;
-      response.send(result);
-    } catch (error) {
-      response.statusCode = 400;
-      response.send(error);
+    
+    const result = await service.execute({name,description});
+    
+    if(result instanceof Error) {
+      return response.status(400).json(result.message);
     }
-  
+
+    return response.status(201).json(result);
+   
   }
 }
