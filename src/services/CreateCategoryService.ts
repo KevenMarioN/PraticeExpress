@@ -9,6 +9,11 @@ type CategoryRequest = {
 export class CreateCategoryService  {
 
   async execute ({name,description} : CategoryRequest): Promise<Category  | Error>{
+
+    if(!name || !description){
+      return new Error("Name and Description does not null");
+    }
+
     const repo = getRepository(Category);
     
     if(await repo.findOne({name})){
